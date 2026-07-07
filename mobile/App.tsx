@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 import { auth } from './src/lib/firebase';
-import { signOutUser } from './src/lib/firebase/authService';
+import { signInWithApple, signOutUser } from './src/lib/firebase/authService';
 import { useAuth } from './src/hooks/useAuth';
 import HomeScreen from './src/screens/HomeScreen';
 import SignInScreen from './src/screens/SignInScreen';
@@ -31,6 +31,10 @@ export default function App() {
     }
   }, [response]);
 
+  const handleAppleSignIn = () => {
+    signInWithApple().catch(console.error);
+  };
+
   if (loading) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center' }}>
@@ -45,7 +49,7 @@ export default function App() {
       {user ? (
         <HomeScreen userId={user.uid} onSignOut={signOutUser} />
       ) : (
-        <SignInScreen onSignIn={() => promptAsync()} />
+        <SignInScreen onSignInGoogle={() => promptAsync()} onSignInApple={handleAppleSignIn} />
       )}
     </>
   );
