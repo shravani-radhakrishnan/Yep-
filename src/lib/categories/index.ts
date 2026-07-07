@@ -1,9 +1,9 @@
 import type { Category } from '../types';
 
 export const CATEGORIES: Category[] = [
-  { id: 'movies',      label: '🎬 Movies',      placeholder: 'e.g. Oppenheimer, Dune…',   hint: '⭐ IMDb rating loads automatically',   type: 'movie' },
-  { id: 'restaurants', label: '🍽 Restaurants',  placeholder: "e.g. Grimaldi's, Nobu…",   hint: '⭐ Google rating loads automatically', type: 'place' },
-  { id: 'places',      label: '📍 Places',       placeholder: 'e.g. Central Park, The Met…', hint: '⭐ Place info loads automatically',  type: 'place' },
+  { id: 'movies',      label: '🎬 Movies',      placeholder: 'e.g. Oppenheimer, Dune…',   hint: '⭐ TMDB rating loads automatically',  type: 'movie' },
+  { id: 'restaurants', label: '🍽 Restaurants',  placeholder: "e.g. Grimaldi's, Nobu…",   hint: 'Add your favourite spots',            type: 'place' },
+  { id: 'places',      label: '📍 Places',       placeholder: 'e.g. Central Park, The Met…', hint: 'Add places you want to visit',      type: 'place' },
   { id: 'activities',  label: '🎲 Activities',   placeholder: 'e.g. Bowling, Board games…', hint: 'Anything goes — no rating needed',   type: 'fun'   },
 ];
 
