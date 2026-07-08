@@ -101,12 +101,12 @@ export function useDecider(userId: string | null = null) {
     }
 
     setLoadingIds(prev => new Set(prev).add(item.id));
-    const { rating, detail } = await fetchRating(name, catDef.type, currentCat === 'restaurants');
+    const { rating, detail, poster } = await fetchRating(name, catDef.type, currentCat === 'restaurants');
     setLoadingIds(prev => { const s = new Set(prev); s.delete(item.id); return s; });
     persist(cur => ({
       ...cur,
       [currentCat]: (cur[currentCat] ?? []).map(i =>
-        i.id === item.id ? { ...i, rating, detail } : i,
+        i.id === item.id ? { ...i, rating, detail, poster } : i,
       ),
     }));
   }, [cat, data, allCategories, persist, showToast]);

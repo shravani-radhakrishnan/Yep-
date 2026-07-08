@@ -15,6 +15,7 @@ export default function ItemCard({ item, loading, onMark, onDelete }: Props) {
   return (
     <div className="item">
       <div className={`dot ${dotClass}`} />
+      {item.poster && <img className="iposter" src={item.poster} alt="" />}
       <div className="ibody">
         <div className="iname">{item.name}</div>
         <div className="imeta">

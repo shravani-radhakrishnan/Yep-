@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import type { Item, Status } from '../lib/types';
 import { colors, fonts } from '../theme';
 
@@ -18,6 +18,7 @@ export default function ItemCard({ item, loading, onMark, onDelete }: Props) {
   return (
     <View style={styles.card}>
       <View style={[styles.dot, { backgroundColor: dotColor }]} />
+      {item.poster && <Image source={{ uri: item.poster }} style={styles.poster} />}
       <View style={styles.body}>
         <Text style={styles.name} numberOfLines={1}>{item.name}</Text>
         <View style={styles.meta}>
@@ -60,6 +61,7 @@ export default function ItemCard({ item, loading, onMark, onDelete }: Props) {
 const styles = StyleSheet.create({
   card:    { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: 14, padding: 14, marginBottom: 8, flexDirection: 'row', alignItems: 'center', gap: 12 },
   dot:     { width: 7, height: 7, borderRadius: 99, marginLeft: 2, flexShrink: 0 },
+  poster:  { width: 34, height: 51, borderRadius: 6, flexShrink: 0 },
   body:    { flex: 1, minWidth: 0 },
   name:    { fontSize: 15, fontWeight: '500', color: colors.text, fontFamily: fonts.sans },
   meta:    { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 4, alignItems: 'center' },

@@ -18,6 +18,7 @@ export interface Item {
   detail: string;
   status: Status;
   picks: number;
+  poster?: string;
 }
 
 export type DataStore = Record<string, Item[]>;
