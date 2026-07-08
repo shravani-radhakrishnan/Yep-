@@ -1,8 +1,6 @@
 import { doc, onSnapshot, setDoc } from 'firebase/firestore';
 import type { Unsubscribe } from 'firebase/firestore';
 import { db } from '.';
-import { loadData } from '../storage';
-import { loadCustomCategories } from '../categories';
 import type { Category, DataStore } from '../types';
 
 function userRef(userId: string) {
@@ -23,10 +21,9 @@ export function subscribeToUserData(
 ): Unsubscribe {
   return onSnapshot(userRef(userId), async snap => {
     if (!snap.exists()) {
-      // First sign-in — migrate any existing localStorage data to Firestore
-      const localData = loadData();
-      const localCats = loadCustomCategories();
-      await setDoc(userRef(userId), { lists: localData, customCategories: localCats });
+      // First sign-in for this account — start with an empty list.
+      // (Local/device storage is not this account's data and must never seed it.)
+      await setDoc(userRef(userId), { lists: {}, customCategories: [] });
       // onSnapshot will fire again once the write is confirmed
     } else {
       const d = snap.data();
