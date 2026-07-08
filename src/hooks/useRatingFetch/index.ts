@@ -24,12 +24,20 @@ const TMDB_GENRES: Record<number, string> = {
 async function fetchMovieInfo(name: string, apiKey: string): Promise<RatingResult> {
   const res  = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(name)}&page=1`);
   const data = await res.json();
-  const movie = data.results?.[0];
-  if (!movie) return { rating: '', detail: '' };
+  const results: Array<{ release_date?: string; genre_ids?: number[]; popularity?: number; vote_average?: number }> = data.results ?? [];
+  if (!results.length) return { rating: '', detail: '' };
+
+  // TMDB's top search hit isn't always the real match — low-quality or
+  // unrelated entries with no release date/genre can outrank it. Prefer the
+  // first result that actually has that metadata; fall back to the most
+  // popular one if none do.
+  const movie =
+    results.find(m => m.release_date && m.genre_ids?.length) ??
+    [...results].sort((a, b) => (b.popularity ?? 0) - (a.popularity ?? 0))[0];
 
   const score  = movie.vote_average ? `⭐ ${movie.vote_average.toFixed(1)} / 10` : '';
   const year   = movie.release_date?.slice(0, 4) ?? '';
-  const genre  = TMDB_GENRES[movie.genre_ids?.[0]] ?? '';
+  const genre  = TMDB_GENRES[movie.genre_ids?.[0] ?? -1] ?? '';
   return { rating: score, detail: [genre, year].filter(Boolean).join(' · ') };
 }
 
